@@ -1,21 +1,21 @@
-import HomeLayout from "@/components/layout/homelayout";
-import { getArticlesByIDs } from "@/lib/queries/articles";
 import { getLayoutModules } from "@/lib/queries/layouts";
+import { getArticles } from "@/lib/queries/articles";
+import HomeEditor from "@/components/layout/homeeditor";
 
-export default async function Home() {
+export default async function admin() {
   const modules = await getLayoutModules("home");
   const ids = modules
     .map((module) => Object.values(module.config?.slots ?? {}))
     .flat()
     .filter((id): id is string => Boolean(id));
-  // only fetches articles required for reading
-  const articles = await getArticlesByIDs(ids);
+  // fetches all articles for display and editing
+  const articles = await getArticles();
   const articlesByIDs = Object.fromEntries(articles.map((a) => [a.id, a]));
+
   return (
-    <HomeLayout
-      editMode={false}
-      modules={modules}
+    <HomeEditor
+      initialModules={modules}
       articlesByIDs={articlesByIDs}
-    ></HomeLayout>
+    ></HomeEditor>
   );
 }

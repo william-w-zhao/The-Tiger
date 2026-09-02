@@ -18,7 +18,7 @@ export async function getArticles() {
     return data.map(normalizeArticle);
 }
 
-// article id
+// article id (singular)
 export async function getArticleById(id: string) {
     const supabase = await createClient();
 
@@ -35,6 +35,21 @@ export async function getArticleById(id: string) {
         throw new Error(error.message);
     }
     return normalizeArticle(data);
+}
+
+// article ids (plural)
+export async function getArticlesByIDs(ids: string[]) {
+    const supabase = await createClient()
+
+    const {data, error} = await supabase
+    .from("articles")
+    .select("*")
+    .in("id", ids)
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data.map(normalizeArticle);
 }
 
 // article slug

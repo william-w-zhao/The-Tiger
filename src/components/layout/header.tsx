@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 import MarqueeBar from "./stockmarquee";
 
@@ -15,7 +14,7 @@ import { FiMenu, FiX } from "react-icons/fi";
 const NAV_BTN =
   "bg-transparent border-0 outline-none shadow-none px-4 font-medium text-[1.2rem] text-black cursor-pointer hover:text-orange-400 transition-colors duration-300";
 
-export default function Navbar() {
+export default function Header() {
   const [open, setOpen] = useState(false);
 
   const closeMenu = () => {
@@ -30,16 +29,11 @@ export default function Navbar() {
         <div className="relative w-full flex items-center px-4 h-16">
           <div className="hidden lg:flex items-center gap-2">
             <Link href="/">
-              <Image
-                src={Tiger}
-                alt="Tiger logo"
-                className="h-16 w-auto"
-                priority
-              />
+              <img src={Tiger.src} alt="Tiger logo" className="h-16 w-auto" />
             </Link>
 
             <Link href="/news" className={NAV_BTN}>
-              News
+              Articles
             </Link>
 
             <Link href="/issues" className={NAV_BTN}>
@@ -49,11 +43,10 @@ export default function Navbar() {
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <Link href="/">
-              <Image
-                src={Text}
+              <img
+                src={Text.src}
                 alt="The Princeton Tiger"
                 className="h-16 w-auto"
-                priority
               />
             </Link>
           </div>
