@@ -1,16 +1,14 @@
 import { ArticleType } from "@/types/article";
 
-export function CardEmpty({
-  editMode,
-  assignSlot,
-}: {
-  editMode: boolean;
-  assignSlot?: (index: number, id: string) => void;
-}) {
+export function CardEmpty({ editMode }: { editMode: boolean }) {
+  if (!editMode) return null;
   return (
     <div
-      className={`h-full p-3 flex items-center justify-center border-2 border-dashed border-gray-200`}
-    ></div>
+      className="h-full min-h-28 flex items-center justify-center rounded border-2 border-dashed border-gray-300 text-gray-400 text-sm
+                group-data-[over=true]/drop:border-orange-400 group-data-[over=true]/drop:border-solid"
+    >
+      DROP
+    </div>
   );
 }
 

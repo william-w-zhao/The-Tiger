@@ -3,7 +3,20 @@ import { useState } from "react";
 import { ModuleType } from "@/types/layouts";
 import { updateSlot, deleteSlot } from "@/lib/actions/layouts";
 import { ArticleType } from "@/types/article";
-import HomeLayout from "./homelayout";
+import HomeLayout from "../layout/homelayout";
+import { DragDropProvider, useDraggable } from "@dnd-kit/react";
+
+function DraggableArticle({ article }: { article: ArticleType }) {
+  const { ref } = useDraggable({ id: article.id });
+  return (
+    <div
+      ref={ref}
+      className="shrink-0 w-40 p-2 border rounded cursor-grab bg-white text-sm truncate"
+    >
+      {article.title}
+    </div>
+  );
+}
 
 export default function HomeEditor({
   initialModules,
@@ -71,14 +84,30 @@ export default function HomeEditor({
   };
 
   return (
-    <main>
-      <HomeLayout
-        modules={modules}
-        articlesByIDs={articlesByIDs}
-        editMode={true}
-        assignSlot={assignSlot}
-        removeSlot={removeSlot}
-      ></HomeLayout>
-    </main>
+    <DragDropProvider
+      onDragEnd={(event) => {
+        const { source, target } = event.operation;
+        if (event.canceled || !source || !target) {
+          return;
+        }
+        const [moduleID, index] = String(target.id).split(":");
+        assignSlot(moduleID, Number(index), String(source.id));
+      }}
+    >
+      <main>
+        <div className="flex gap-4 overflow-x-auto px-4 py-4 mb-6 rounded-xl bg-orange-100">
+          {Object.values(articlesByIDs).map((a) => (
+            <DraggableArticle key={a.id} article={a} />
+          ))}
+        </div>
+        <HomeLayout
+          modules={modules}
+          articlesByIDs={articlesByIDs}
+          editMode={true}
+          assignSlot={assignSlot}
+          removeSlot={removeSlot}
+        ></HomeLayout>
+      </main>
+    </DragDropProvider>
   );
 }

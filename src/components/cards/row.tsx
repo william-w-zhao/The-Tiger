@@ -1,30 +1,31 @@
 import Link from "next/link";
 import { ItemType, Orientation } from "@/types/layouts";
 import { CardEmpty, CardImage, CardTitle, CardByline } from "./atoms";
+import DroppableSlot from "./droppable";
 
 export function Row({
+  moduleID,
   items,
   editMode,
   orientation,
-  assignSlot,
   removeSlot,
 }: {
+  moduleID?: string;
   items: ItemType[];
   editMode: boolean;
   orientation: Orientation;
-  assignSlot?: (index: number, id: string) => void;
   removeSlot?: (index: number) => void;
 }) {
   return (
     <section
-      className="grid divide-x divide-gray-200"
+      className="grid items-start divide-x divide-gray-200"
       style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
     >
-      {items.map(({ index, article }) =>
-        article ? (
+      {items.map(({ index, article }) => {
+        const content = article ? (
           // image on top of text
           orientation === "vertical" ? (
-            <div key={index} className="p-4 relative">
+            <>
               <Link href={`articles/${article.slug}`}>
                 <CardImage article={article} className="aspect-4/3"></CardImage>
                 <CardTitle
@@ -36,7 +37,7 @@ export function Row({
               {editMode && removeSlot && (
                 <button
                   onClick={(e) => {
-                    e.preventDefault;
+                    e.preventDefault();
                     removeSlot(index);
                   }}
                   className="absolute top-2 right-2 z-20 text-3xl text-red-500 hover:text-red-700 font-bold"
@@ -44,7 +45,7 @@ export function Row({
                   ×
                 </button>
               )}
-            </div>
+            </>
           ) : (
             // image to the right of text
             <div key={index} className="flex gap-4 items-start relative">
@@ -58,7 +59,7 @@ export function Row({
               {editMode && removeSlot && (
                 <button
                   onClick={(e) => {
-                    e.preventDefault;
+                    e.preventDefault();
                     removeSlot(index);
                   }}
                   className="absolute top-2 right-2 z-20 text-3xl text-red-500 hover:text-red-700 font-bold"
@@ -69,13 +70,24 @@ export function Row({
             </div>
           )
         ) : (
-          <CardEmpty
+          <CardEmpty editMode={editMode}></CardEmpty>
+        );
+        const slotClass = "p-4 relative";
+        return editMode && moduleID ? (
+          <DroppableSlot
             key={index}
-            editMode={editMode}
-            assignSlot={assignSlot}
-          ></CardEmpty>
-        ),
-      )}
+            moduleID={moduleID}
+            index={index}
+            className={slotClass}
+          >
+            {content}
+          </DroppableSlot>
+        ) : (
+          <div key={index} className={slotClass}>
+            {content}
+          </div>
+        );
+      })}
     </section>
   );
 }

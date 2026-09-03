@@ -1,30 +1,31 @@
 import Link from "next/link";
 import { ItemType, Orientation } from "@/types/layouts";
 import { CardEmpty, CardImage, CardTitle, CardByline } from "./atoms";
+import DroppableSlot from "./droppable";
 
 export function Column({
+  moduleID,
   items,
   editMode,
   orientation,
-  assignSlot,
   removeSlot,
 }: {
+  moduleID?: string;
   items: ItemType[];
   editMode: boolean;
   orientation: Orientation;
-  assignSlot?: (index: number, id: string) => void;
   removeSlot?: (index: number) => void;
 }) {
   return (
     <section className="flex flex-col divide-y divide-gray-200 px-4">
-      {items.map(({ index, article }) =>
-        article ? (
+      {items.map(({ index, article }) => {
+        const content = article ? (
           // image on top of text
           orientation === "vertical" ? (
-            <div key={index} className="flex-1 min-h-0 py-4 relative">
+            <>
               <Link
                 href={`/articles/${article.slug}`}
-                className="flex flex-col h-full"
+                className="flex flex-col h-full justify-center"
               >
                 <CardImage article={article} className="group flex-1 min-h-0" />
                 <CardTitle
@@ -36,7 +37,7 @@ export function Column({
               {editMode && removeSlot && (
                 <button
                   onClick={(e) => {
-                    e.preventDefault;
+                    e.preventDefault();
                     removeSlot(index);
                   }}
                   className="absolute top-2 right-2 z-20 text-3xl text-red-500 hover:text-red-700 font-bold"
@@ -44,13 +45,13 @@ export function Column({
                   ×
                 </button>
               )}
-            </div>
+            </>
           ) : (
             // image to the right of text
-            <div key={index} className="flex-1 py-4 relative">
+            <>
               <Link
                 href={`/articles/${article.slug}`}
-                className="group flex gap-4 items-center"
+                className="group flex gap-4 items-center h-full"
               >
                 <div className="min-w-0 flex-1">
                   <CardTitle
@@ -64,7 +65,7 @@ export function Column({
               {editMode && removeSlot && (
                 <button
                   onClick={(e) => {
-                    e.preventDefault;
+                    e.preventDefault();
                     removeSlot(index);
                   }}
                   className="absolute top-2 right-2 z-20 text-3xl text-red-500 hover:text-red-700 font-bold"
@@ -72,16 +73,27 @@ export function Column({
                   ×
                 </button>
               )}
-            </div>
+            </>
           )
         ) : (
-          <CardEmpty
+          <CardEmpty editMode={editMode}></CardEmpty>
+        );
+        const slotClass = "flex-1 min-h-0 py-4 relative";
+        return editMode && moduleID ? (
+          <DroppableSlot
             key={index}
-            editMode={editMode}
-            assignSlot={assignSlot}
-          ></CardEmpty>
-        ),
-      )}
+            moduleID={moduleID}
+            index={index}
+            className={slotClass}
+          >
+            {content}
+          </DroppableSlot>
+        ) : (
+          <div key={index} className={slotClass}>
+            {content}
+          </div>
+        );
+      })}
     </section>
   );
 }

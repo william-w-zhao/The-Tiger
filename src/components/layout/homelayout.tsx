@@ -33,14 +33,10 @@ export default function HomeLayout({
     <div className="min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr_1fr] items-stretch lg:divide-x lg:divide-gray-200">
         <Column
+          moduleID={left?.id}
           items={itemsFor(left)}
           orientation="vertical"
           editMode={editMode}
-          assignSlot={
-            assignSlot && left
-              ? (index, id) => assignSlot(left.id, index, id)
-              : undefined
-          }
           removeSlot={
             removeSlot && left
               ? (index) => removeSlot(left.id, index)
@@ -48,13 +44,9 @@ export default function HomeLayout({
           }
         />
         <Hero
+          moduleID={hero?.id}
           items={itemsFor(hero)}
           editMode={editMode}
-          assignSlot={
-            assignSlot && hero
-              ? (index, id) => assignSlot(hero.id, index, id)
-              : undefined
-          }
           removeSlot={
             removeSlot && hero
               ? (index) => removeSlot(hero.id, index)
@@ -62,14 +54,10 @@ export default function HomeLayout({
           }
         />
         <Column
+          moduleID={right?.id}
           items={itemsFor(right)}
           orientation="horizontal"
           editMode={editMode}
-          assignSlot={
-            assignSlot && right
-              ? (index, id) => assignSlot(right.id, index, id)
-              : undefined
-          }
           removeSlot={
             removeSlot && right
               ? (index) => removeSlot(right.id, index)
@@ -79,14 +67,10 @@ export default function HomeLayout({
       </div>
       <hr className="hidden lg:block h-[1.5px] w-full border-0 bg-[#DEDEDE] my-6" />
       <Row
+        moduleID={bottom?.id}
         items={itemsFor(bottom)}
         orientation="vertical"
         editMode={editMode}
-        assignSlot={
-          assignSlot && bottom
-            ? (index, id) => assignSlot(bottom.id, index, id)
-            : undefined
-        }
         removeSlot={
           removeSlot && bottom
             ? (index) => removeSlot(bottom.id, index)

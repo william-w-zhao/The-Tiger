@@ -24,5 +24,18 @@ export async function signUp(formData: FormData) {
   if (!allowed) {
     redirect("/login?error=" + encodeURIComponent("Unauthorized sign-up"));
   }
+
+  // 2. actually create the account   ← this was missing
+  const { error } = await supabase.auth.signUp({ email, password });
+  if (error) {
+    redirect("/login?error=" + encodeURIComponent(error.message));
+  }
+
   redirect("/admin");
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
 }

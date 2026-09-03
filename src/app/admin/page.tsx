@@ -1,21 +1,14 @@
-import { getLayoutModules } from "@/lib/queries/layouts";
+import { signOut } from "@/lib/actions/auth";
+import ArticleList from "@/components/admin/articlelist";
 import { getArticles } from "@/lib/queries/articles";
-import HomeEditor from "@/components/layout/homeeditor";
+import { ArticleType } from "@/types/article";
+import Link from "next/link";
 
-export default async function admin() {
-  const modules = await getLayoutModules("home");
-  const ids = modules
-    .map((module) => Object.values(module.config?.slots ?? {}))
-    .flat()
-    .filter((id): id is string => Boolean(id));
-  // fetches all articles for display and editing
+export default async function AdminPage() {
   const articles = await getArticles();
-  const articlesByIDs = Object.fromEntries(articles.map((a) => [a.id, a]));
-
   return (
-    <HomeEditor
-      initialModules={modules}
-      articlesByIDs={articlesByIDs}
-    ></HomeEditor>
+    <>
+      <ArticleList articles={articles}></ArticleList>
+    </>
   );
 }
