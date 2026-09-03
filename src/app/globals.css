@@ -26,4 +26,7 @@
     background: white;
     color: black;
   }
+  html {
+    zoom: 0.9;
+  }
 }
