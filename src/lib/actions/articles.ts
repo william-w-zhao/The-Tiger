@@ -27,6 +27,7 @@ export async function updateArticle(article: ArticleType) {
   revalidatePath("/");
   revalidatePath("/articles/[slug]", "page");
   revalidatePath("/admin");
+  return { slug: columns.slug };
 }
 
 // delete srticle
@@ -56,10 +57,10 @@ export async function createArticle() {
   const { data, error } = await supabase
     .from("articles")
     .insert({ id: crypto.randomUUID(), title: "", slug, section: "", description: "", content: "", author: "" })
-    .select("slug")
+    .select("id")
     .single();
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin");
-  redirect(`/admin/articles/${data.slug}`);
+  redirect(`/admin/articles/${data.id}`);
 }

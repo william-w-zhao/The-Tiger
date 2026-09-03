@@ -1,14 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { storage } from "@/lib/firebase/firebase";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
 import { updateArticle } from "@/lib/actions/articles";
+import { uploadImage, deleteImage } from "@/lib/actions/images";
 import { ArticleType } from "@/types/article";
 
 const TEXTAREA_STYLE =
@@ -63,25 +57,20 @@ export default function ArticleEditor({
 
       if (imageChange) {
         if (image) {
-          const imageRef = ref(storage, `images/${article.id}`);
-          await uploadBytes(imageRef, image, {
-            contentType: image.type,
-            cacheControl: "public, max-age=31536000",
-          });
-          update = { ...update, image_url: await getDownloadURL(imageRef) };
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("articleId", article.id);
+          update = { ...update, image_url: await uploadImage(formData) };
           setImage(null);
           setPreviewURL(null);
         } else if (!update.image_url) {
-          try {
-            await deleteObject(ref(storage, `images/${article.id}`));
-          } catch (e: any) {
-            if (e?.code !== "storage/object-not-found") console.error(e);
-          }
+          await deleteImage(article.id);
         }
         setImageChange(false);
       }
 
-      await updateArticle(update);
+      const result = await updateArticle(update);
+      update = { ...update, slug: result.slug };
       setArticle(update);
       setHasSaved(true);
     } catch (e) {

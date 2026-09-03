@@ -41,7 +41,7 @@ export default function ArticleListEntry({
       </div>
 
       <div className="flex items-center gap-1">
-        <Link href={`/admin/articles/${article.slug}`}>
+        <Link href={`/admin/articles/${article.id}`}>
           <FaRegPenToSquare className="text-gray-400 hover:text-black hover:cursor-pointer active:text-gray-400" />
         </Link>
         <button onClick={() => setIsDeleteOpen(true)}>

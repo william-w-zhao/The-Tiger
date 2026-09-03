@@ -1,14 +1,14 @@
-import { getArticleBySlug } from "@/lib/queries/articles";
+import { getArticleById } from "@/lib/queries/articles";
 import { notFound } from "next/navigation";
 import ArticleEditor from "@/components/admin/articleEditor";
 
 export default async function EditArticlePage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }) {
-  const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const { id } = await params;
+  const article = await getArticleById(id);
   if (!article) notFound();
   return <ArticleEditor initialArticle={article} />;
 }
