@@ -1,20 +1,30 @@
-import Link from "next/link";
-import type { ArticleType } from "@/types/article";
+"use client";
+import { useState } from "react";
+import { ArticleType } from "@/types/article";
+import ArticleListEntry from "./articleListEntry";
 
-export default function ArticleList({ articles }: { articles: ArticleType[] }) {
+export default function ArticleList({
+  initialArticles,
+}: {
+  initialArticles: ArticleType[];
+}) {
+  const [articles, setArticles] = useState(initialArticles);
+
+  const removeArticle = async (articleID: string) => {
+    setArticles((articles) =>
+      articles.filter((article) => article.id != articleID),
+    );
+  };
+
   return (
-    <ul className="divide-y divide-gray-200">
+    <div>
       {articles.map((article) => (
-        <li key={article.id}>
-          <Link
-            href={`/admin/articles/${article.slug}`}
-            className="flex justify-between py-3 hover:bg-gray-50"
-          >
-            <span className="font-medium">{article.title}</span>
-            <span className="text-gray-500">{article.author}</span>
-          </Link>
-        </li>
+        <ArticleListEntry
+          key={article.id}
+          article={article}
+          removeArticle={removeArticle}
+        ></ArticleListEntry>
       ))}
-    </ul>
+    </div>
   );
 }

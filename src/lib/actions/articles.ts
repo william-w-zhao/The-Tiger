@@ -3,18 +3,24 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "../supabase/server";
 import { ArticleType } from "@/types/article";
+import { slugify } from "../utils/slugify";
 
 export async function updateArticle(article: ArticleType) {
   const supabase = await createClient();
 
+  // verify user
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
   const { data: editor } = await supabase
     .from("editor_whitelist").select("email")
-    .eq("email", user.email?.toLowerCase() ?? "").maybeSingle();
+    .eq("email", user.email?.toLowerCase() ?? "");
   if (!editor) throw new Error("Unauthorized");
 
+  // only generate a new slug on first-write for link stability
   const { authors, id, ...columns } = article;
+  if (columns.slug?.startsWith("untitled-")) {
+    columns.slug = slugify(columns.title)
+  }
   const { error } = await supabase.from("articles").update(columns).eq("id", id);
   if (error) throw new Error(error.message);
 
@@ -23,7 +29,8 @@ export async function updateArticle(article: ArticleType) {
   revalidatePath("/admin");
 }
 
-export async function deleteArticle(articleID: number) {
+// delete srticle
+export async function deleteArticle(articleID: string) {
   const supabase = await createClient();
   const { error } = await supabase.from("articles").delete().eq("id", articleID);
 
@@ -31,13 +38,12 @@ export async function deleteArticle(articleID: number) {
   revalidatePath("/");
   revalidatePath("/articles/[slug]", "page");
   revalidatePath("/admin");
-
-  redirect("/admin");
 }
 
 export async function createArticle() {
   const supabase = await createClient();
 
+  // verify user
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
   const { data: editor } = await supabase
@@ -45,10 +51,11 @@ export async function createArticle() {
     .eq("email", user.email?.toLowerCase() ?? "").maybeSingle();
   if (!editor) throw new Error("Unauthorized");
 
+  // create blank article with unique date-based slug
   const slug = `untitled-${Date.now()}`;
   const { data, error } = await supabase
     .from("articles")
-    .insert({ title: "Untitled", slug, section: "", description: "", content: "", author: "" })
+    .insert({ id: crypto.randomUUID(), title: "", slug, section: "", description: "", content: "", author: "" })
     .select("slug")
     .single();
   if (error) throw new Error(error.message);

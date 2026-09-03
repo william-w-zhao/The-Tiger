@@ -19,13 +19,13 @@ export async function getArticles() {
 }
 
 // article id (singular)
-export async function getArticleById(id: string) {
+export async function getArticleById(articleID: string) {
     const supabase = await createClient();
 
     const {data, error} = await supabase
     .from('articles')
     .select('*')
-    .eq('id', id)
+    .eq('id', articleID)
     .single()
 
     if (error) {
@@ -72,13 +72,13 @@ export async function getArticleBySlug(slug: string) {
 }
 
 // author id (NOT SLUG)
-export async function getArticlesByAuthor(author_id: string) {
+export async function getArticlesByAuthor(authorID: string) {
     const supabase = await createClient()
 
     const {data, error} = await supabase
     .from('article_authors')
     .select('article:articles(*)')
-    .eq('author_id', author_id)
+    .eq('author_id', authorID)
     .order('created_at', { referencedTable: 'articles', ascending: false });
 
     if (error) {
