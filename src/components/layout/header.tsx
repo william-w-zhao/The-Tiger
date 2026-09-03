@@ -32,7 +32,7 @@ export default function Header() {
               <img src={Tiger.src} alt="Tiger logo" className="h-16 w-auto" />
             </Link>
 
-            <Link href="/news" className={NAV_BTN}>
+            <Link href="/articles" className={NAV_BTN}>
               Articles
             </Link>
 
