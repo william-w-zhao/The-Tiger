@@ -34,10 +34,7 @@ export default async function Article({ article }: { article: ArticleType }) {
           {article.authors?.length > 0
             ? article.authors.map((author, index) => (
                 <span key={author.id}>
-                  <Link
-                    href={`/authors/${author.slug}`}
-                    className="hover:underline"
-                  >
+                  <Link href={`/authors/${author.slug}`} className="underline">
                     {author.name}
                   </Link>
                   {index < article.authors.length - 2

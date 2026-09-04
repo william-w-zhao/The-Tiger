@@ -20,7 +20,7 @@ export default async function Author({ author }: { author: AuthorType }) {
   const displayName = getName(author.name);
 
   return (
-    <div className="max-w-[90%] mx-auto lg:max-w-[55%]">
+    <div className="w-full max-w-[90%] mx-auto lg:max-w-[55%]">
       <h1 className="text-5xl font-bold mb-2">
         {displayName}
         {classYear && (
@@ -45,7 +45,7 @@ export default async function Author({ author }: { author: AuthorType }) {
           {articles.map((article) => (
             <Link
               key={article.id}
-              href={`/articles/${article.id}`}
+              href={`/articles/${article.slug}`}
               className="block hover:opacity-80"
             >
               <h3 className="text-orange-400">{article.section}</h3>

@@ -7,16 +7,17 @@ export default async function AdminPage() {
   const articles = await getArticles();
   return (
     <>
-      <div className="flex items-center justify-center relative">
-        <hr className="text-gray-300 mb-2" />
+      <div className="flex justify-end mb-2">
         <button
           onClick={createArticle}
-          className="absolute right-0 enabled:hover:underline enabled:hover:cursor-pointer disabled:opacity-50"
+          className="enabled:hover:underline enabled:hover:cursor-pointer disabled:opacity-50"
         >
           New Article
         </button>
       </div>
-      <ArticleList initialArticles={articles}></ArticleList>
+      <div className="border border-gray-300 rounded-lg p-4">
+        <ArticleList initialArticles={articles}></ArticleList>
+      </div>
     </>
   );
 }

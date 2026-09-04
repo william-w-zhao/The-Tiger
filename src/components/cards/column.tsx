@@ -51,7 +51,7 @@ export function Column({
             <>
               <Link
                 href={`/articles/${article.slug}`}
-                className="group flex gap-4 items-center h-full"
+                className="group flex flex-col-reverse lg:flex-row gap-4 lg:items-center h-full"
               >
                 <div className="min-w-0 flex-1">
                   <CardTitle
@@ -60,7 +60,10 @@ export function Column({
                   />
                   <CardByline article={article} />
                 </div>
-                <CardImage article={article} className="w-24 h-24 shrink-0" />
+                <CardImage
+                  article={article}
+                  className="w-full aspect-4/3 lg:w-24 lg:h-24 lg:aspect-auto shrink-0"
+                />
               </Link>
               {editMode && removeSlot && (
                 <button
