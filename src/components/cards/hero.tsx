@@ -45,7 +45,7 @@ export function Hero({
   const slotClass = "flex-1 min-h-0 py-4 relative";
 
   return (
-    <section className="flex flex-col lg:border-gray-200 lg:px-4">
+    <section className="flex flex-col lg:border-gray-200 lg:px-4 order-first lg:order-0">
       {editMode && moduleID ? (
         <DroppableSlot moduleID={moduleID} index={0} className={slotClass}>
           {content}

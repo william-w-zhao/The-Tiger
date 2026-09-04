@@ -18,8 +18,12 @@ export function Row({
 }) {
   return (
     <section
-      className="grid items-start divide-x divide-gray-200"
-      style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
+      className="grid items-start grid-cols-1 divide-y lg:divide-y-0 lg:divide-x divide-gray-200 lg:[grid-template-columns:var(--row-cols)]"
+      style={
+        {
+          "--row-cols": `repeat(${items.length}, minmax(0, 1fr))`,
+        } as React.CSSProperties
+      }
     >
       {items.map(({ index, article }) => {
         const content = article ? (

@@ -58,7 +58,7 @@ export async function getArticleBySlug(slug: string) {
 
     const {data, error} = await supabase
     .from('articles')
-    .select('*')
+    .select(articleSelect) 
     .eq('slug', slug)
     .single()
 

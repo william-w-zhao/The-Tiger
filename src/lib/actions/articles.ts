@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "../supabase/server";
 import { ArticleType } from "@/types/article";
 import { slugify } from "../utils/slugify";
+import { linkAuthorsToArticles } from "./authors";
 
 export async function updateArticle(article: ArticleType) {
   const supabase = await createClient();
@@ -13,7 +14,8 @@ export async function updateArticle(article: ArticleType) {
   if (!user) throw new Error("Unauthorized");
   const { data: editor } = await supabase
     .from("editor_whitelist").select("email")
-    .eq("email", user.email?.toLowerCase() ?? "");
+    .eq("email", user.email?.toLowerCase() ?? "")
+    .maybeSingle();
   if (!editor) throw new Error("Unauthorized");
 
   // only generate a new slug on first-write for link stability
@@ -24,13 +26,17 @@ export async function updateArticle(article: ArticleType) {
   const { error } = await supabase.from("articles").update(columns).eq("id", id);
   if (error) throw new Error(error.message);
 
+  await linkAuthorsToArticles(id, columns.author ?? "")
+
   revalidatePath("/");
   revalidatePath("/articles/[slug]", "page");
   revalidatePath("/admin");
+  revalidatePath("/authors/[slug]", "page");
+
   return { slug: columns.slug };
 }
 
-// delete srticle
+// delete article
 export async function deleteArticle(articleID: string) {
   const supabase = await createClient();
   const { error } = await supabase.from("articles").delete().eq("id", articleID);
@@ -41,6 +47,7 @@ export async function deleteArticle(articleID: string) {
   revalidatePath("/admin");
 }
 
+// create new article
 export async function createArticle() {
   const supabase = await createClient();
 

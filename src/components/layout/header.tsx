@@ -91,8 +91,8 @@ export default function Header() {
           }`}
         >
           <div className="flex flex-col px-4 py-3 gap-4">
-            <Link href="/news" className={NAV_BTN} onClick={closeMenu}>
-              News
+            <Link href="/articles" className={NAV_BTN} onClick={closeMenu}>
+              Articles
             </Link>
 
             <Link href="/issues" className={NAV_BTN} onClick={closeMenu}>
