@@ -1,7 +1,8 @@
-import { createClient } from "../supabase/server";
+import { createPublicClient } from "../supabase/public";
 
 export async function getIssues() {
-  const supabase = await createClient()
+  const supabase = createPublicClient();
+
   const { data, error } = await supabase
     .from("issues")
     .select("*")
@@ -13,7 +14,8 @@ export async function getIssues() {
 }
 
 export async function getIssueByID(issueID: string) {
-  const supabase = await createClient()
+  const supabase = createPublicClient();
+
   const { data, error } = await supabase
     .from("issues")
     .select("*")
@@ -26,7 +28,8 @@ export async function getIssueByID(issueID: string) {
 }
 
 export async function getIssueBySlug(slug: string) {
-  const supabase = await createClient()
+  const supabase = createPublicClient();
+
   const { data, error } = await supabase
     .from("issues")
     .select("*")

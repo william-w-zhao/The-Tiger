@@ -12,6 +12,7 @@ const faustina = Faustina({
 export const metadata: Metadata = {
   title: "The Princeton Tiger",
   description: "Princeton's Home of Humor since 1882",
+  metadataBase: new URL("https://the-tiger-ten.vercel.app"),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

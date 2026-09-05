@@ -1,6 +1,8 @@
 import { getIssues } from "@/lib/queries/issues";
 // remove:  import Link from "next/link";
 
+export const revalidate = 60;
+
 const IssueCover = ({ pdfUrl, title }: { pdfUrl: string; title: string }) => {
   return (
     <div className="w-full aspect-3/4 bg-gray-100 overflow-hidden">

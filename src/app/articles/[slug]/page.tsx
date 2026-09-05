@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getArticleBySlug } from "@/lib/queries/articles";
 import Article from "@/components/articles/article";
 
+export const revalidate = 60;
+
 export async function generateMetadata({
   params,
 }: {

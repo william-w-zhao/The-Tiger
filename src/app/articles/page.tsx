@@ -1,6 +1,8 @@
 import { getArticles } from "@/lib/queries/articles";
 import ArticleEntry from "@/components/articles/articleEntry";
 
+export const revalidate = 60;
+
 export default async function ArticlesPage() {
   const articles = await getArticles();
 

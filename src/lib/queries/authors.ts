@@ -1,10 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
-import { normalizeArticle } from "@/lib/utils/articles";
-import { slugify } from "../utils/slugify";
-import { articleSelect } from "@/types/article";
+import { createPublicClient } from "../supabase/public";
 
 export async function getAuthors() {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from('authors')
@@ -19,7 +16,7 @@ export async function getAuthors() {
 
 // author id
 export async function getAuthorById(id: string) {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from('authors')
@@ -38,7 +35,7 @@ export async function getAuthorById(id: string) {
 
 // article slug
 export async function getAuthorBySlug(slug: string) {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from('authors')

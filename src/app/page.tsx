@@ -2,6 +2,8 @@ import HomeLayout from "@/components/layout/homelayout";
 import { getArticlesByIDs } from "@/lib/queries/articles";
 import { getLayoutModules } from "@/lib/queries/layouts";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const modules = await getLayoutModules("home");
   const ids = modules

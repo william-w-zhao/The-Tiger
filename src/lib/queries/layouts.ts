@@ -1,9 +1,9 @@
-import { createClient } from "../supabase/server";
+import { createPublicClient } from "../supabase/public";
 
 
 // get layout modules from given id (home, news)
 export async function getLayoutModules(id: string) {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from("modules")

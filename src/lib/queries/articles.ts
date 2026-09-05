@@ -1,11 +1,10 @@
-import { createClient } from "@/lib/supabase/server";
 import { normalizeArticle } from "@/lib/utils/articles";
 import { ArticleType } from "@/types/article";
-import { slugify } from "../utils/slugify";
 import { articleSelect } from "@/types/article";
+import { createPublicClient } from "../supabase/public";
 
 export async function getArticles() {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from('articles')
@@ -20,7 +19,7 @@ export async function getArticles() {
 
 // article id (singular)
 export async function getArticleById(articleID: string) {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from('articles')
@@ -39,7 +38,7 @@ export async function getArticleById(articleID: string) {
 
 // article ids (plural)
 export async function getArticlesByIDs(ids: string[]) {
-    const supabase = await createClient()
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from("articles")
@@ -54,7 +53,7 @@ export async function getArticlesByIDs(ids: string[]) {
 
 // article slug
 export async function getArticleBySlug(slug: string) {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from('articles')
@@ -73,7 +72,7 @@ export async function getArticleBySlug(slug: string) {
 
 // author id (NOT SLUG)
 export async function getArticlesByAuthor(authorID: string) {
-    const supabase = await createClient()
+    const supabase = createPublicClient();
 
     const {data, error} = await supabase
     .from('article_authors')
