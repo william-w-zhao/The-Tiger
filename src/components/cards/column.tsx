@@ -25,9 +25,12 @@ export function Column({
             <>
               <Link
                 href={`/articles/${article.slug}`}
-                className="flex flex-col h-full justify-center"
+                className="flex flex-col lg:h-full lg:justify-center"
               >
-                <CardImage article={article} className="group flex-1 min-h-0" />
+                <CardImage
+                  article={article}
+                  className="group w-full aspect-4/3 lg:flex-1 lg:aspect-auto lg:min-h-0"
+                />
                 <CardTitle
                   article={article}
                   className="text-lg lg:text-xl mt-2 shrink-0"
@@ -81,7 +84,7 @@ export function Column({
         ) : (
           <CardEmpty editMode={editMode}></CardEmpty>
         );
-        const slotClass = "flex-1 min-h-0 py-4 relative";
+        const slotClass = "lg:flex-1 lg:min-h-0 py-4 relative";
         return editMode && moduleID ? (
           <DroppableSlot
             key={index}

@@ -20,9 +20,12 @@ export function Hero({
     <>
       <Link
         href={`/articles/${featured.article.slug}`}
-        className="group flex flex-col h-full justify-center"
+        className="group flex flex-col lg:h-full lg:justify-center"
       >
-        <CardImage article={featured.article} className="flex-1 min-h-0" />
+        <CardImage
+          article={featured.article}
+          className="w-full aspect-4/3 lg:flex-1 lg:aspect-auto lg:min-h-0"
+        />
         <CardTitle
           article={featured.article}
           className="text-lg lg:text-3xl mt-2"
@@ -45,7 +48,7 @@ export function Hero({
     <CardEmpty editMode={editMode}></CardEmpty>
   );
 
-  const slotClass = "flex-1 min-h-0 py-4 relative";
+  const slotClass = "lg:flex-1 lg:min-h-0 py-4 relative";
 
   return (
     <section className="flex flex-col lg:border-gray-200 px-4 order-first lg:order-0">
