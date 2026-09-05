@@ -3,6 +3,7 @@ import { Faustina } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { Analytics } from "@vercel/analytics/next";
 import { PostHogProvider } from "@/lib/posthog/posthog";
 
 const faustina = Faustina({
@@ -12,7 +13,7 @@ const faustina = Faustina({
 export const metadata: Metadata = {
   title: "The Princeton Tiger",
   description: "Princeton's Home of Humor since 1882",
-  metadataBase: new URL("https://the-tiger-ten.vercel.app"),
+  metadataBase: new URL("https://theprincetontiger.com"),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
         </PostHogProvider>
+        <Analytics />
       </body>
     </html>
   );
