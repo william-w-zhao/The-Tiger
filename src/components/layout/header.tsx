@@ -90,7 +90,7 @@ export default function Header() {
               : "max-h-0 opacity-0 -translate-y-2"
           }`}
         >
-          <div className="flex flex-col px-4 py-3 gap-4">
+          <div className="flex flex-col items-center px-4 py-3 gap-4">
             <Link href="/articles" className={NAV_BTN} onClick={closeMenu}>
               Articles
             </Link>
