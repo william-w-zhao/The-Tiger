@@ -18,7 +18,7 @@ export function Row({
 }) {
   return (
     <section
-      className="grid items-start grid-cols-1 divide-y lg:divide-y-0 lg:divide-x divide-gray-200 lg:[grid-template-columns:var(--row-cols)]"
+      className="grid items-start grid-cols-1 divide-y lg:divide-y-0 lg:divide-x divide-gray-200 lg:grid-cols-(--row-cols)"
       style={
         {
           "--row-cols": `repeat(${items.length}, minmax(0, 1fr))`,
@@ -34,7 +34,7 @@ export function Row({
                 <CardImage article={article} className="aspect-4/3"></CardImage>
                 <CardTitle
                   article={article}
-                  className={"text-xl mt-2"}
+                  className="text-lg lg:text-xl mt-2"
                 ></CardTitle>
                 <CardByline article={article} />
               </Link>

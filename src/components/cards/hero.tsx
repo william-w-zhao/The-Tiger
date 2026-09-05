@@ -23,7 +23,10 @@ export function Hero({
         className="group flex flex-col h-full justify-center"
       >
         <CardImage article={featured.article} className="flex-1 min-h-0" />
-        <CardTitle article={featured.article} className="text-3xl mt-2" />
+        <CardTitle
+          article={featured.article}
+          className="text-lg lg:text-3xl mt-2"
+        />
         <CardByline article={featured.article} />
       </Link>
       {editMode && removeSlot && (

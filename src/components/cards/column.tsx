@@ -30,7 +30,7 @@ export function Column({
                 <CardImage article={article} className="group flex-1 min-h-0" />
                 <CardTitle
                   article={article}
-                  className="text-xl mt-2 shrink-0"
+                  className="text-lg lg:text-xl mt-2 shrink-0"
                 />
                 <CardByline article={article} />
               </Link>
@@ -56,7 +56,7 @@ export function Column({
                 <div className="min-w-0 flex-1">
                   <CardTitle
                     article={article}
-                    className="text-md line-clamp-2"
+                    className="text-lg lg:text-base line-clamp-2"
                   />
                   <CardByline article={article} />
                 </div>
