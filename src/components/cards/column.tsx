@@ -17,7 +17,7 @@ export function Column({
   removeSlot?: (index: number) => void;
 }) {
   return (
-    <section className="flex flex-col divide-y divide-gray-200 px-4">
+    <section className="flex flex-col lg:divide-y lg:divide-gray-200 px-4">
       {items.map(({ index, article }) => {
         const content = article ? (
           // image on top of text

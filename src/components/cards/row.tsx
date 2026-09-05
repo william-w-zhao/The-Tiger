@@ -18,7 +18,7 @@ export function Row({
 }) {
   return (
     <section
-      className="grid items-start grid-cols-1 divide-y lg:divide-y-0 lg:divide-x divide-gray-200 lg:grid-cols-(--row-cols)"
+      className="grid items-start grid-cols-1 lg:divide-x lg:divide-gray-200 lg:grid-cols-(--row-cols)"
       style={
         {
           "--row-cols": `repeat(${items.length}, minmax(0, 1fr))`,
