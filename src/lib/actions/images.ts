@@ -1,4 +1,5 @@
 "use server";
+import sharp from "sharp";
 import { createClient } from "@/lib/supabase/server";
 import { adminStorage } from "@/lib/firebase/admin";
 
@@ -23,11 +24,17 @@ export async function uploadImage(formData: FormData): Promise<string> {
   const path = `images/${articleId}`;
   const ref = bucket.file(path);
 
-  await ref.save(bytes, {
-    contentType: file.type,
+  const optimized = await sharp(Buffer.from(await file.arrayBuffer()))
+  .rotate()
+  .resize({ width: 2000, withoutEnlargement: true })
+  .webp({ quality: 80 })
+  .toBuffer();
+  
+  await ref.save(optimized, {
+    contentType: "image/webp",
     metadata: { cacheControl: "public, max-age=31536000" },
   });
-  await ref.makePublic();
+  await ref.makePublic()
 
   return `https://storage.googleapis.com/${bucket.name}/${path}?v=${Date.now()}`;
 }
